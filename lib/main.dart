@@ -61,17 +61,16 @@ class _MyFormState extends State<MyForm> {
                 width: 100,
                 height: 100,
                 child: IconButton(
-                  icon: Icon(Icons.camera_alt),
-                  onPressed: () async {
-                    final image = await ImagePicker()
-                        .getImage(source: ImageSource.gallery);
-                    if (image != null) {
-                      setState(() {
-                        _selectedImage = image;
-                      });
-                    }
-                  },
-                ),
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: () async {
+                      final image = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
+                      if (image != null) {
+                        setState(() {
+                          _selectedImage = image;
+                        });
+                      }
+                    }),
               ),
               TextFormField(
                 controller: _nameController,
