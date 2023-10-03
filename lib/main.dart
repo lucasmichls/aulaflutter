@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -57,20 +58,23 @@ class _MyFormState extends State<MyForm> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Container(
-                width: 100,
-                height: 100,
-                child: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: () async {
-                      final image = await ImagePicker()
-                          .getImage(source: ImageSource.gallery);
-                      if (image != null) {
-                        setState(() {
-                          _selectedImage = image;
-                        });
-                      }
-                    }),
+              if (_selectedImage != null)
+                Image.file(
+                  File(_selectedImage!.path),
+                  width: 100,
+                  height: 100,
+                ),
+              IconButton(
+                icon: Icon(Icons.camera_alt),
+                onPressed: () async {
+                  final image =
+                      await ImagePicker().getImage(source: ImageSource.gallery);
+                  if (image != null) {
+                    setState(() {
+                      _selectedImage = image;
+                    });
+                  }
+                },
               ),
               TextFormField(
                 controller: _nameController,
@@ -176,7 +180,6 @@ class _MyFormState extends State<MyForm> {
                   final country = _countryController.text;
 
                   if (name.isEmpty) {
-                    // Nome Completo está em branco
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -196,7 +199,6 @@ class _MyFormState extends State<MyForm> {
                       },
                     );
                   } else if (_birthdate == null) {
-                    // Data de Nascimento não foi selecionada
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -215,7 +217,6 @@ class _MyFormState extends State<MyForm> {
                       },
                     );
                   } else if (city.isEmpty) {
-                    // Cidade está em branco
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -235,7 +236,6 @@ class _MyFormState extends State<MyForm> {
                       },
                     );
                   } else if (country.isEmpty) {
-                    // País está em branco
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -255,7 +255,6 @@ class _MyFormState extends State<MyForm> {
                       },
                     );
                   } else {
-                    // Todos os campos estão preenchidos, você pode processar os dados aqui
                     final data = {
                       'Nome': name,
                       'Data de Nascimento':
@@ -267,11 +266,10 @@ class _MyFormState extends State<MyForm> {
                       'Notificação por E-mail': _selectedEmailNotification,
                     };
 
-                    // Exemplo de exibição dos dados no console
                     print(data);
                   }
                 },
-                child: Text('Enviar'),
+                child: Text('Atualizar'),
               ),
             ],
           ),
